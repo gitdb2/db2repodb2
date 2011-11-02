@@ -1,5 +1,4 @@
 
-
 DROP TABLE aprueba CASCADE CONSTRAINTS;
 DROP TABLE estudiante CASCADE CONSTRAINTS;
 DROP TABLE examen CASCADE CONSTRAINTS;
@@ -7,7 +6,8 @@ DROP TABLE inscribe CASCADE CONSTRAINTS;
 DROP TABLE instancia_ex CASCADE CONSTRAINTS;
 DROP TABLE institucion CASCADE CONSTRAINTS;
 DROP TABLE salon CASCADE CONSTRAINTS;
-DROP TABLE rinde CASCADE CONSTRAINTS;
+DROP TABLE rinde_data CASCADE CONSTRAINTS;
+DROP VIEW rinde CASCADE CONSTRAINTS;
 
 
 CREATE TABLE estudiante (
@@ -63,7 +63,7 @@ CREATE TABLE aprueba (
   nro_estudiante NUMBER CHECK(nro_estudiante >=0),
   nro_examen NUMBER CHECK(nro_examen >=0),
   fecha DATE NOT NULL,
-  calificacion NUMBER (3) NOT NULL CHECK(calificacion BETWEEN 70 AND 100),
+  calificacion NUMBER (3) NOT NULL CHECK(calificacion BETWEEN 70  and 100),
   CONSTRAINT aprueba_pk PRIMARY KEY (nro_estudiante, nro_examen),
   CONSTRAINT aprueba_fk_nro_est FOREIGN KEY (nro_estudiante) REFERENCES examen (nro_examen),
   CONSTRAINT aprueba_fk_nro_ex FOREIGN KEY (nro_examen) REFERENCES examen (nro_examen)
@@ -80,7 +80,7 @@ CREATE TABLE instancia_ex (
 );
 
 
-CREATE TABLE rinde (
+CREATE TABLE rinde_data (
   nro_examen NUMBER CHECK(nro_examen >=0),
   nro_estudiante NUMBER check(nro_estudiante >=0),
   nombre_institucion VARCHAR2(50),
@@ -93,9 +93,5 @@ CREATE TABLE rinde (
   CONSTRAINT rinde_fk_salon FOREIGN KEY (nombre_institucion, nro_salon) REFERENCES salon (nombre_institucion, nro_salon)
 );
 
-
-
-
-
-
+CREATE VIEW rinde AS SELECT * FROM rinde_data;
 
