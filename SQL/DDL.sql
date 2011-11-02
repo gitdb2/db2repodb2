@@ -74,6 +74,7 @@ CREATE TABLE instancia_ex (
   nro_examen NUMBER CHECK(nro_examen >=0),
   nombre_institucion VARCHAR2(50),
   fecha DATE,
+  hora TIMESTAMP NOT NULL,
   CONSTRAINT instancia_ex_pk PRIMARY KEY (nro_examen, nombre_institucion, fecha),
   CONSTRAINT instancia_ex_fk_nro_ex FOREIGN KEY (nro_examen) REFERENCES examen (nro_examen),
   CONSTRAINT instancia_ex_fk_nombre FOREIGN KEY (nombre_institucion) REFERENCES institucion (nombre)
