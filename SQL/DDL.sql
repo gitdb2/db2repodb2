@@ -90,7 +90,9 @@ CREATE TABLE rinde_data (
   CONSTRAINT rinde_pk PRIMARY KEY (nro_examen, nro_estudiante, nombre_institucion, nro_salon, fecha),
   CONSTRAINT rinde_fk_inscribe FOREIGN KEY (nro_examen, nro_estudiante) REFERENCES inscribe (nro_examen, nro_estudiante),
   CONSTRAINT rinde_fk_instancia_ex FOREIGN KEY (nro_examen, nombre_institucion, fecha) REFERENCES instancia_ex (nro_examen, nombre_institucion, fecha),
-  CONSTRAINT rinde_fk_salon FOREIGN KEY (nombre_institucion, nro_salon) REFERENCES salon (nombre_institucion, nro_salon)
+  CONSTRAINT rinde_fk_salon FOREIGN KEY (nombre_institucion, nro_salon) REFERENCES salon (nombre_institucion, nro_salon),
+  CONSTRAINT rinde_fk_salon FOREIGN KEY (nombre_institucion, nro_salon) REFERENCES salon (nombre_institucion, nro_salon),
+  CONSTRAINT rinde_unique UNIQUE (nro_estudiante, fecha)
 );
 
 CREATE VIEW rinde AS SELECT * FROM rinde_data;
