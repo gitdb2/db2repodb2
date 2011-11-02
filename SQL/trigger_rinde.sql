@@ -117,7 +117,7 @@ WHERE nro_examen = 1
 --PRueba para Control de examen aprobado
 
 INSERT INTO aprueba VALUES (1, 1, to_date('2011/01/10', 'yyyy/mm/dd'), 80);
-INSERT INTO instancia_ex VALUES (1, 'inst1', to_date('2011/02/01', 'yyyy/mm/dd'));
+INSERT INTO instancia_ex VALUES (1, 'inst1', to_date('2011/02/01', 'yyyy/mm/dd'), to_date('2011-12-02 18:00:', 'YYYY-MM-DD HH24:MI:'));
 
 INSERT INTO examen VALUES (2, 'test drive MINI cooper XD', 'S');
 INSERT INTO instancia_ex VALUES (2, 'inst1', to_date('2011/01/01', 'yyyy/mm/dd'));
