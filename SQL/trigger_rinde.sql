@@ -42,8 +42,6 @@ BEGIN
 		RAISE_APPLICATION_ERROR(-20001, 'El numero de silla no es valido, debe estar dentro del rango maximo y minimo del salon.');
 	END IF;
   
-
-
 --Control de qu ela silla no este ocupada
 	SELECT COUNT(*) 
 	INTO cantidad
@@ -75,9 +73,7 @@ BEGIN
 
 END;
 
-
 --prueba para rinde
-
 INSERT INTO estudiante VALUES (1, 1, 'paraguay', 'est1', 'apellido', 'asuncion');
 INSERT INTO estudiante VALUES (2, 2, 'paraguay', 'est1', 'apellido', 'asuncion');
 INSERT INTO estudiante VALUES (3, 3, 'paraguay', 'est1', 'apellido', 'asuncion');
@@ -89,8 +85,7 @@ INSERT INTO inscribe VALUES (1, 1);
 INSERT INTO inscribe VALUES (2, 1);
 INSERT INTO inscribe VALUES (3, 1);
 
-INSERT INTO instancia_ex VALUES (1, 'inst1', to_date('2011/01/01', 'yyyy/mm/dd'));
-
+INSERT INTO instancia_ex VALUES (1, 'inst1', to_date('2011/01/01', 'yyyy/mm/dd'), to_date('2011-12-02 16:00:', 'YYYY-MM-DD HH24:MI:'));
 INSERT INTO rinde VALUES (1, 1, 'inst1', 1, to_date('2011/01/01', 'yyyy/mm/dd'), 1);
 INSERT INTO rinde VALUES (1, 2, 'inst1', 1, to_date('2011/01/01', 'yyyy/mm/dd'), 2);
 

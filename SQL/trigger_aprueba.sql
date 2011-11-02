@@ -26,13 +26,11 @@ INSERT INTO institucion VALUES ('inst1', 'paraguay', 'asuncion', 'chilavert road
 INSERT INTO salon VALUES ('inst1', 1, 30, 1);
 INSERT INTO examen VALUES (1, 'test de cooper', 'S');
 INSERT INTO inscribe VALUES (1, 1);
-INSERT INTO instancia_ex VALUES (1, 'inst1', to_date('2011/01/01', 'yyyy/mm/dd'));
+INSERT INTO instancia_ex VALUES (1, 'inst1', to_date('2011/01/01', 'yyyy/mm/dd'), to_date('2011-12-02 16:00:', 'YYYY-MM-DD HH24:MI:'));
 INSERT INTO rinde VALUES (1, 1, 'inst1', 1, to_date('2011/01/01', 'yyyy/mm/dd'), 5);
 
 --este insert activa el trigger
 INSERT INTO aprueba VALUES (1, 1, to_date('2011/01/05', 'yyyy/mm/dd'), 95);
-
-
 
 
 
