@@ -1,7 +1,8 @@
 
 --Controla que cuando se inserta un registro, el nroSilla este dentro del rango de nroSillas valido
 
-CREATE OR REPLACE TRIGGER t1_rinde_insteadof
+create or replace
+TRIGGER t1_rinde_insteadof
 INSTEAD OF INSERT OR UPDATE ON rinde
 FOR EACH ROW
 DECLARE
@@ -37,7 +38,7 @@ BEGIN
 	AND ix.nro_examen = ib.nro_examen
 	AND ix.nro_examen = :NEW.nro_examen
 	AND ib.nro_estudiante = :NEW.nro_estudiante;
-            		    		
+           
   IF (:NEW.nro_silla_asignado < salon_nro_silla_min) OR (:NEW.nro_silla_asignado > salon_nro_silla_max) THEN
 		RAISE_APPLICATION_ERROR(-20001, 'El numero de silla no es valido, debe estar dentro del rango maximo y minimo del salon.');
 	END IF;
@@ -70,6 +71,9 @@ BEGIN
 	      AND fecha = :NEW.fecha;
 	      
 	END IF;
+exception
+  when NO_DATA_FOUND then
+    RAISE_APPLICATION_ERROR(-20001, 'No se encontraron datos para los campos:: nro_salon y/o nro_examen y/o nombre_institucion y/o nro_estudiante');
 
 END;
 
