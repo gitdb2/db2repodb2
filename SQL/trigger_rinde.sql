@@ -96,12 +96,22 @@ BEGIN
 				  
 				ELSIF UPDATING THEN
 			
-				    UPDATE rinde_data SET nro_silla_asignado = :NEW.nro_silla_asignado
-				    WHERE nro_examen = :NEW.nro_examen
-				      AND nro_estudiante = :NEW.nro_estudiante
-				      AND nombre_institucion = :NEW.nombre_institucion
-				      AND nro_salon = :NEW.nro_salon
-				      AND fecha = :NEW.fecha;
+				    UPDATE rinde_data 
+				    SET   nro_silla_asignado = :NEW.nro_silla_asignado,
+					  nro_salon = :NEW.nro_salon,
+					  nro_examen = :NEW.nro_examen,
+					  nro_estudiante = :NEW.nro_estudiante,
+					  nombre_institucion = :NEW.nombre_institucion,
+					  fecha = :NEW.fecha
+            
+				    WHERE nro_examen = :OLD.nro_examen
+				      AND nro_estudiante = :OLD.nro_estudiante
+				      AND nombre_institucion = :OLD.nombre_institucion
+				      AND nro_salon = :OLD.nro_salon
+              			      AND nro_silla_asignado = :OLD.nro_silla_asignado
+				      AND fecha = :OLD.fecha;
+				      
+				
 				      
 				END IF;
 
