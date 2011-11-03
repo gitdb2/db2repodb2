@@ -38,16 +38,12 @@ set nro_silla_min = 10, nro_silla_max = 17
 where nombre_institucion = 'inst2';
 
 --ROMPE
-
 UPDATE salon
 set nro_silla_min = 10
 where nombre_institucion = 'inst1';
+
 --ROMPE 2
 UPDATE salon
 set nro_silla_max = 2
 where nombre_institucion = 'inst1';
-
-
-
-
 
