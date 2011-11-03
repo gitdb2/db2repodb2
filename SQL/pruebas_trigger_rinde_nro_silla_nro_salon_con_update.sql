@@ -15,9 +15,6 @@ INSERT INTO inscribe VALUES (4, 1);
 INSERT INTO inscribe VALUES (5, 1);
 
 INSERT INTO instancia_ex VALUES (1, 'inst1', to_date('2011/01/01', 'yyyy/mm/dd'), to_date('2011/01/01 16:00:', 'yyyy/mm/dd HH24:MI:'));
-INSERT INTO rinde VALUES (1, 1, 'inst1', 1, to_date('2011/01/01', 'yyyy/mm/dd'), 1);
-INSERT INTO rinde VALUES (1, 2, 'inst1', 1, to_date('2011/01/01', 'yyyy/mm/dd'), 2);
----------
 
 --PRE-(SILLA en salon original disponible)
 DELETE FROM RINDE WHERE 1=1;
