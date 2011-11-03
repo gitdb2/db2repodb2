@@ -284,19 +284,6 @@ WHERE nro_examen = 1
   AND fecha = to_date('2011/01/01', 'yyyy/mm/dd');
 
 
---este insert activa el trigger porque ya esta ocupado el nroSilla
-INSERT INTO rinde VALUES (1, 3, 'inst1', 1, to_date('2011/01/01', 'yyyy/mm/dd'), 1);
-
-
---este update activa el trigger porque ya esta ocupado el nroSilla
-UPDATE rinde SET nro_silla_asignado = 2
-WHERE nro_examen = 1
-  AND nro_estudiante = 1
-  AND nombre_institucion = 'inst1'
-  AND nro_salon = 1
-  AND fecha = to_date('2011/01/01', 'yyyy/mm/dd');
-
-
 --PRueba para Control de examen aprobado
 
 INSERT INTO aprueba VALUES (1, 1, to_date('2011/01/10', 'yyyy/mm/dd'), 80);
