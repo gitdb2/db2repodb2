@@ -10,17 +10,17 @@ INSERT INTO inscribe VALUES (1, 1);
 INSERT INTO instancia_ex VALUES (1, 'inst1', to_date('2011/01/01', 'yyyy/mm/dd'), to_date('2011/01/01 16:00:', 'YYYY/MM/DD HH24:MI:'));
 INSERT INTO rinde VALUES (1, 1, 'inst1', 1, to_date('2011/01/01', 'yyyy/mm/dd'), 5);
 
---NO debe ROMPER
+--Actualizo los rangos de número de silla de un Salon de manera que todas las tuplas de Rinde quedan consistentes.
 UPDATE salon
 set nro_silla_min = 10, nro_silla_max = 17
 where nombre_institucion = 'inst2';
 
---ROMPE
+--Actualizo el rango mínimo de número de silla de un Salon de manera que alguna tupla de Rinde queda inconsistente.
 UPDATE salon
 set nro_silla_min = 10
 where nombre_institucion = 'inst1';
 
---ROMPE 2
+--Actualizo el rango máximo de número de silla de un Salon de manera que alguna tupla de Rinde queda inconsistente.
 UPDATE salon
 set nro_silla_max = 2
 where nombre_institucion = 'inst1';

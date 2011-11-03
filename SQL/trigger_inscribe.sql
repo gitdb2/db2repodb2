@@ -22,13 +22,3 @@ BEGIN
 END;
 
 
----DATOS DE PRUEBA PARA LA PARTE DE CONTRO DE INSCRIPCION A EXAMEN NO DISPONIBLE
---prueba para t1_inscribe
-INSERT INTO estudiante VALUES (1, 2, 'paraguay', 'est1', 'apellido', 'asuncion');
-INSERT INTO examen VALUES (1, 'test de cooper', 'S');
-INSERT INTO examen VALUES (2, 'tiro al arco', 'N');
-INSERT INTO inscribe VALUES (1, 1);
-
---en este insert se activa el trigger
-INSERT INTO inscribe VALUES (1, 2);
-
