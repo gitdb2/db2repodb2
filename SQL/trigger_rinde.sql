@@ -257,7 +257,7 @@ BEGIN
 							close cursor_salonesDeInstitucion;
 				
 							IF encontre = 0 THEN
-								RAISE_APPLICATION_ERROR(-20001,'LO SIENTO PIBITO, NO PODES DAR EL EXAMEN, no hay lugar. SORI');
+								RAISE_APPLICATION_ERROR(-20001,'NO PUEDES DAR EL EXAMEN, no hay lugar');
 							END IF;
 
 						EXCEPTION
