@@ -20,7 +20,7 @@ UPDATE salon
 set nro_silla_min = 10
 where nombre_institucion = 'inst1';
 
---Actualizo el rango máximo de número de silla de un Salon de manera que alguna tupla de Rinde queda inconsistente.
+--ROMPE 2
 UPDATE salon
 set nro_silla_max = 2
 where nombre_institucion = 'inst1';
