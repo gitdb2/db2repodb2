@@ -299,10 +299,10 @@ INSERT INTO instancia_ex VALUES (1, 'inst1', to_date('2011/01/01', 'yyyy/mm/dd')
 INSERT INTO rinde VALUES (1, 1, 'inst1', 1, to_date('2011/01/01', 'yyyy/mm/dd'), 1);
 INSERT INTO rinde VALUES (1, 2, 'inst1', 1, to_date('2011/01/01', 'yyyy/mm/dd'), 2);
 
---este insert activa el trigger por el nroSalon invalido
+--este insert activa el trigger por el nroSilla invalido
 INSERT INTO rinde VALUES (1, 3, 'inst1', 1, to_date('2011/01/01', 'yyyy/mm/dd'), 900);
 
---este update activa el trigger por el nroSalon invalido
+--este update activa el trigger por el nroSilla invalido
 UPDATE rinde SET nro_silla_asignado = 900 
 WHERE nro_examen = 1
   AND nro_estudiante = 1
