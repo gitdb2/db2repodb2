@@ -88,7 +88,24 @@ BEGIN
 		END;
 
 		IF controlSilla = 0 THEN
-		      RAISE_APPLICATION_ERROR(-20001,'SILLA en salon original disponible:  Tu nuevo salon es '||:NEW.nro_SAlon || ' y tu silla es: '|| :NEW.nro_silla_asignado);
+
+			IF INSERTING THEN
+					INSERT 	INTO rinde_data 
+						VALUES (:NEW.nro_examen, :NEW.nro_estudiante, :NEW.nombre_institucion,
+							:NEW.nro_salon, :NEW.fecha, :NEW.nro_silla_asignado);
+				  
+				ELSIF UPDATING THEN
+			
+				    UPDATE rinde_data SET nro_silla_asignado = :NEW.nro_silla_asignado
+				    WHERE nro_examen = :NEW.nro_examen
+				      AND nro_estudiante = :NEW.nro_estudiante
+				      AND nombre_institucion = :NEW.nombre_institucion
+				      AND nro_salon = :NEW.nro_salon
+				      AND fecha = :NEW.fecha;
+				      
+				END IF;
+
+		     -- RAISE_APPLICATION_ERROR(-20001,'SILLA en salon original disponible:  Tu nuevo salon es '||:NEW.nro_SAlon || ' y tu silla es: '|| :NEW.nro_silla_asignado);
 
 		ELSE
 			-- el numero de silla ya esta ocupado, entonces busco si el numero de silla esta libre en los otros salones.
