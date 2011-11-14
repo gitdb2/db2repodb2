@@ -204,5 +204,5 @@ BEGIN
 
 EXCEPTION
     WHEN OTHERS THEN
-	  raise_application_error(-20001,'An error was encountered - '||SQLCODE||' -ERROR- '||SQLERRM);
+	  raise_application_error(-20001, SQLERRM);
 END;
