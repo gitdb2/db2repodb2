@@ -20,41 +20,41 @@ INSERT INTO rinde VALUES (1, 2, 'inst1', 1, to_date('2011/01/01', 'yyyy/mm/dd'),
 ---------
 
 
-PRE-(SILLA en salon original disponible)
+--PRE-(SILLA en salon original disponible)
 DELETE FROM RINDE WHERE 1=1;
 INSERT INTO rinde VALUES (1, 1, 'inst1', 1, to_date('2011/01/01', 'yyyy/mm/dd'), 1);
 INSERT INTO rinde VALUES (1, 2, 'inst1', 1, to_date('2011/01/01', 'yyyy/mm/dd'), 2);
-POST 
-Prueba de nueva rinde para salon 2 y silla 1, +> debe insertar en el salon 2 silla 1 
+--POST 
+--Prueba de nueva rinde para salon 2 y silla 1, +> debe insertar en el salon 2 silla 1 
 INSERT INTO rinde VALUES (1, 3, 'inst1', 2, to_date('2011/01/01', 'yyyy/mm/dd'), 1);
-exito !!!!
+--exito !!!!
 ---------
 
-PRE	(MISMO SALON NUEVA SILLA)
+--PRE	(MISMO SALON NUEVA SILLA)
 DELETE FROM RINDE WHERE 1=1;
 INSERT INTO rinde VALUES (1, 1, 'inst1', 1, to_date('2011/01/01', 'yyyy/mm/dd'), 1);
 INSERT INTO rinde VALUES (1, 2, 'inst1', 2, to_date('2011/01/01', 'yyyy/mm/dd'), 1);
 
-POST  
-Prueba de nueva rinde para salon 1 y silla 1, => debe insertar en el salon 1 silla 2
-(la silla en el salon actual esta ocupada y en el otro salon tambien)
+--POST  
+--Prueba de nueva rinde para salon 1 y silla 1, => debe insertar en el salon 1 silla 2
+--(la silla en el salon actual esta ocupada y en el otro salon tambien)
 INSERT INTO rinde VALUES (1, 3, 'inst1', 1, to_date('2011/01/01', 'yyyy/mm/dd'), 1);
-exito !!!!
+--exito !!!!
 ---------
 
 
-PRE (NUEVO SALON MISMA SILLA)
+--PRE (NUEVO SALON MISMA SILLA)
 DELETE FROM RINDE WHERE 1=1;
 INSERT INTO rinde VALUES (1, 1, 'inst1', 1, to_date('2011/01/01', 'yyyy/mm/dd'), 1);
 INSERT INTO rinde VALUES (1, 2, 'inst1', 2, to_date('2011/01/01', 'yyyy/mm/dd'), 2);
-POST  
-Prueba de estudiante nueva rinde para salon 1 y silla 2, +> debe insertar en el salon 2 silla 1
+--POST  
+--Prueba de estudiante nueva rinde para salon 1 y silla 2, +> debe insertar en el salon 2 silla 1
 INSERT INTO rinde VALUES (1, 3, 'inst1', 1, to_date('2011/01/01', 'yyyy/mm/dd'), 1);
-exito!!!!!
+--exito!!!!!
 ---------
 
-PRE  (CUALQUIER SALON, CUALQUIER SILLA)
-cualquier silla y cualquier salon, si busco registrarme en salon 2 silla 1 
+--PRE  (CUALQUIER SALON, CUALQUIER SILLA)
+--cualquier silla y cualquier salon, si busco registrarme en salon 2 silla 1 
 DELETE FROM RINDE WHERE 1=1;
 UPDATE SALON SET nro_silla_max = 3 where nro_salon = 1 and nombre_institucion = 'inst1';
 INSERT INTO rinde VALUES (1, 1, 'inst1', 1, to_date('2011/01/01', 'yyyy/mm/dd'), 1);
@@ -62,24 +62,24 @@ INSERT INTO rinde VALUES (1, 2, 'inst1', 1, to_date('2011/01/01', 'yyyy/mm/dd'),
 INSERT INTO rinde VALUES (1, 3, 'inst1', 2, to_date('2011/01/01', 'yyyy/mm/dd'), 1);
 INSERT INTO rinde VALUES (1, 4, 'inst1', 2, to_date('2011/01/01', 'yyyy/mm/dd'), 2);
 
-POST debe retornar salon 1 silla 3 
+--POST debe retornar salon 1 silla 3 
 INSERT INTO rinde VALUES (1, 5, 'inst1', 2, to_date('2011/01/01', 'yyyy/mm/dd'), 1);
 
 DELETE FROM RINDE WHERE 1=1;
 UPDATE SALON SET nro_silla_max = 2 where nro_salon = 1 and nombre_institucion = 'inst1';
-exito!!!!!
+--exito!!!!!
 ---------
 
-PRE	(LO SIENTO PIBITO, NO PODES DAR EL EXAMEN, no hay lugar. SORI)
-prueba de buscar y no encontrar lugar debe dar error no hay lugar
+--PRE	(LO SIENTO PIBITO, NO PODES DAR EL EXAMEN, no hay lugar. SORI)
+--prueba de buscar y no encontrar lugar debe dar error no hay lugar
 DELETE FROM RINDE WHERE 1=1;
 INSERT INTO rinde VALUES (1, 1, 'inst1', 1, to_date('2011/01/01', 'yyyy/mm/dd'), 1);
 INSERT INTO rinde VALUES (1, 2, 'inst1', 1, to_date('2011/01/01', 'yyyy/mm/dd'), 2);
 INSERT INTO rinde VALUES (1, 3, 'inst1', 2, to_date('2011/01/01', 'yyyy/mm/dd'), 1);
 INSERT INTO rinde VALUES (1, 4, 'inst1', 2, to_date('2011/01/01', 'yyyy/mm/dd'), 2);
-POST
-Al intentar con este (salon 2 silla 1) no deberia dejar porque no hay silla ni salon disponible:
+--POST
+--Al intentar con este (salon 2 silla 1) no deberia dejar porque no hay silla ni salon disponible:
 INSERT INTO rinde VALUES (1, 5, 'inst1', 1, to_date('2011/01/01', 'yyyy/mm/dd'), 1);
-exito!!!!!
+--exito!!!!!
 ---------
 
