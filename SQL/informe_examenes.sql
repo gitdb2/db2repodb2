@@ -4,18 +4,25 @@ CREATE OR REPLACE PROCEDURE informe_examenes (nro_examen NUMBER, fecha_inicio DA
 descripcion VARCHAR2(200);
 
 nombre_institucion VARCHAR2(50);
+nombre_institucion_anterior VARCHAR2(50);
 fecha DATE;
 hora TIMESTAMP;
 pais VARCHAR2(30);
 nro_salon NUMBER;
+nro_salon_anterior NUMBER;
 nro_silla NUMBER;
 nro_estudiante NUMBER;
 nombre_estudiante VARCHAR2(50);
+apellido VARCHAR2(50);
+primero NUMBER;
+aux_fecha_fin DATE;
 
-CURSOR cursor_instancias_examenes IS
+CURSOR cursor_instancias_examenes (par_fecha_fin IN DATE) IS
 SELECT i.fecha
 FROM instancia_ex i
 WHERE i.nro_examen = nro_examen
+  AND i.fecha >= fecha_inicio
+  AND i.fecha <= par_fecha_fin
 GROUP BY fecha
 ORDER BY fecha ASC;
 
@@ -28,7 +35,7 @@ WHERE i.nro_examen = nro_examen
 ORDER BY i.fecha ASC, i.hora DESC;
 
 CURSOR cursor_salon_alumno (par_nombre_inst IN VARCHAR2, par_fecha IN DATE) IS
-SELECT r.nro_salon, r.nro_silla_asignado, r.nro_estudiante, e.nombre
+SELECT r.nro_salon, r.nro_silla_asignado, r.nro_estudiante, e.nombre, e.apellido
 FROM rinde r, estudiante e
 WHERE r.nro_examen = nro_examen
   AND r.nro_estudiante = e.nro_estudiante
@@ -36,12 +43,8 @@ WHERE r.nro_examen = nro_examen
   AND r.nombre_institucion = par_nombre_inst
 ORDER BY r.nro_salon ASC, r.nro_silla_asignado ASC;
 
-
 BEGIN
     
-  -----------------
-  --mensaje inicial
-  -----------------
   SELECT e.descripcion 
   INTO descripcion
   FROM examen e
@@ -61,7 +64,14 @@ BEGIN
   
   DBMS_OUTPUT.PUT_LINE('-----------------------');
 
-  OPEN cursor_instancias_examenes;
+  IF (fecha_fin IS NULL)
+  THEN
+    aux_fecha_fin := sysdate;
+  ELSE
+    aux_fecha_fin := fecha_fin;
+  END IF;
+  
+  OPEN cursor_instancias_examenes (aux_fecha_fin);
   LOOP
     FETCH cursor_instancias_examenes INTO fecha;
       EXIT WHEN cursor_instancias_examenes%NOTFOUND;
@@ -69,7 +79,8 @@ BEGIN
       BEGIN
       
         DBMS_OUTPUT.PUT_LINE('-- ' || TO_CHAR(fecha, 'DD.MON.YYYY'));
-                
+        nombre_institucion_anterior := 'xxxxxxxxxxxxxxxxxxxxxx';
+                        
         OPEN cursor_examenes(fecha);
         LOOP
           FETCH cursor_examenes INTO nombre_institucion, hora, pais;
@@ -78,21 +89,50 @@ BEGIN
             BEGIN  
             
               DBMS_OUTPUT.PUT_LINE('----- ' || nombre_institucion || ' (' || pais || ') - ' || TO_CHAR(hora, 'HH24:MI'));
-              
+              nro_salon_anterior := -1;
+             
+              primero := 1;
+                                          
               OPEN cursor_salon_alumno(nombre_institucion, fecha);
               LOOP
-                FETCH cursor_salon_alumno INTO nro_salon, nro_silla, nro_estudiante, nombre_estudiante;
+                FETCH cursor_salon_alumno INTO nro_salon, nro_silla, nro_estudiante, nombre_estudiante, apellido;
                   EXIT WHEN cursor_salon_alumno%NOTFOUND;
                   
                   BEGIN
-                  
-                    DBMS_OUTPUT.PUT_LINE('------- Salon: ' || nro_salon);
+                                                        
+                    IF (nro_salon <> nro_salon_anterior) 
+                    THEN
+                      
+                      IF (primero <> 1)
+                      THEN
+                        DBMS_OUTPUT.PUT_LINE('------------------------------------------');
+                      END IF;
+                      
+                      primero := 0;
+                      
+                      DBMS_OUTPUT.PUT_LINE('------- Salon: ' || nro_salon);
+                      DBMS_OUTPUT.PUT_LINE('          Silla   -   NroEst   -   Nombre');
+                      DBMS_OUTPUT.PUT_LINE('------------------------------------------');
+                      
+                    END IF;
                     
+                    DBMS_OUTPUT.PUT_LINE('           ' || nro_silla || '   -   ' || nro_estudiante || '   -   ' || nombre_estudiante || ' ' || apellido);
+                    
+                    nro_salon_anterior := nro_salon;
+                                        
                   END;
                   
               END LOOP;
               CLOSE cursor_salon_alumno;
-                  
+              
+              IF (nombre_institucion <> nombre_institucion_anterior)
+              THEN
+                DBMS_OUTPUT.PUT_LINE('------------------------------------------');
+                DBMS_OUTPUT.PUT_LINE('');
+              END IF;
+              
+              nombre_institucion_anterior := nombre_institucion;
+                                              
             END;
             
         END LOOP;
