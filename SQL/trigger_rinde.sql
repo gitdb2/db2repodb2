@@ -52,7 +52,8 @@ BEGIN
 		AND s.nro_salon = :NEW.nro_salon
 		AND ix.nro_examen = ib.nro_examen
 		AND ix.nro_examen = :NEW.nro_examen
-		AND ib.nro_estudiante = :NEW.nro_estudiante;
+		AND ib.nro_estudiante = :NEW.nro_estudiante
+		AND ix.fecha = :NEW.fecha;
 		   
 	  	IF (:NEW.nro_silla_asignado < salon_nro_silla_min) OR (:NEW.nro_silla_asignado > salon_nro_silla_max) THEN
 			RAISE_APPLICATION_ERROR(-20001, 'El numero de silla no es valido, debe estar dentro del rango maximo y minimo del salon.');
