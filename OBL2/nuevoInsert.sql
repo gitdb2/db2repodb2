@@ -10,7 +10,7 @@ PROCEDURE INSERT_RINDE
 , p_STATUS OUT NUMBER
 ) AS 
 
-nom_inst VARCHAR2;
+nom_inst VARCHAR2(50);
 nro_salonFinal NUMBER;
 nro_sillaFinal NUMBER;
 
@@ -33,24 +33,37 @@ BEGIN
     BUSCAR_ULTIMO_SALON_SILLA(p_NRO_EXAMEN, p_NRO_ESTUDIANTE, p_FECHA, nom_inst, nro_salonFinal, nro_sillaFinal, estado_interno);
     
    --BLOQUEO los rinde para la institucion seleccionada, para que nadie pueda leer ni escibir datos en rinde y relacionados con la institucion
-   SELECT count(*)
-	INTO tmp
-   FROM	rinde r
-   WHERE 
-	r.nombre_institucion = nom_inst
-   AND	r.fecha = p_FECHA
-   FOR UPDATE;
+   --SELECT count(*)
+--	INTO tmp
+ --  FROM	rinde r
+ --  WHERE 
+--	r.nombre_institucion = nom_inst
+--   AND	r.fecha = p_FECHA
+--   FOR UPDATE;
 
-		BUSCAR_SALON_SILLA(
-			   p_NOMBRE_INSTITUCION,
-			   p_FECHA,
-			   nro_salonFinal,
-			   nro_sillaFinal
-			  );
-       
-   INSERT INTO rinde VALUES (p_NRO_EXAMEN, p_NRO_ESTUDIANTE, nom_inst, nro_salonFinal,p_FECHA, nro_sillaFinal); 
-   
-   COMMIT;
+--SET TRANSACTION ISOLATION LEVEL SERIALIZABLE NAME 'BUSCAR_SILLA_LIBRE_E_INSERTAR';
+	BEGIN
+
+   dbms_output.put_line('BUSCAR_SALON_SILLA('|| p_NOMBRE_INSTITUCION ||','||
+                   p_FECHA||','||
+                   nro_salonFinal||','||
+                   nro_sillaFinal||')');
+
+			BUSCAR_SALON_SILLA(
+				   p_NOMBRE_INSTITUCION,
+				   p_FECHA,
+				   nro_salonFinal,
+				   nro_sillaFinal
+				  );
+	       
+	   INSERT INTO rinde VALUES (p_NRO_EXAMEN, p_NRO_ESTUDIANTE, nom_inst, nro_salonFinal,p_FECHA, nro_sillaFinal); 
+    COMMIT;
+     dbms_output.put_line('VA a dormir 5 segs');
+	   DBMS_LOCK.sleep (5);
+     dbms_output.put_line('termino de dormir hace commit');
+	--   COMMIT;
+     dbms_output.put_line('hizo commit');
+	END;
    p_NRO_SALON := nro_salonFinal;
    p_NRO_SILLA := nro_sillaFinal;
    p_STATUS    := 0;

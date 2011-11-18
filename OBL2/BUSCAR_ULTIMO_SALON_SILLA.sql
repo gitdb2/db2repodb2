@@ -43,10 +43,12 @@ BEGIN
     WHERE r.nro_examen = p_NRO_EXAMEN
     AND   r.nro_estudiante = p_NRO_ESTUDIANTE
     AND   r.fecha IN 
-                    (
+                    (--busco la ultima fecha en que el estudinte dio el examen
                       SELECT MAX(fecha)
                       FROM rinde 
                       WHERE fecha < p_FECHA
+		      AND nro_estudiante = p_NRO_ESTUDIANTE 
+                      AND nro_estudiante = p_NRO_ESTUDIANTE
                     );
   
   EXCEPTION
