@@ -48,7 +48,7 @@ BEGIN
                       FROM rinde 
                       WHERE fecha < p_FECHA
 		      AND nro_estudiante = p_NRO_ESTUDIANTE 
-                      AND nro_estudiante = p_NRO_ESTUDIANTE
+                      AND nro_examen = p_NRO_EXAMEN
                     );
   
   EXCEPTION
