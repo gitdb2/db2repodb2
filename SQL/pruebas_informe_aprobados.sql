@@ -4,6 +4,7 @@ SET serveroutput ON;
 /
 BEGIN
   
+  DELETE FROM aprueba WHERE 1=1;
   DELETE FROM rinde WHERE 1=1;
   DELETE FROM instancia_ex WHERE 1=1;
   DELETE FROM inscribe WHERE 1=1;
@@ -43,6 +44,10 @@ BEGIN
   
   INSERT INTO rinde VALUES (142, 8945, 'Anglo', 23, to_date('2009/12/15', 'yyyy/mm/dd'), 11);
   INSERT INTO rinde VALUES (142, 8945, 'Anglo', 23, to_date('2010/12/20', 'yyyy/mm/dd'), 11);
+  
+  INSERT INTO aprueba VALUES (1234, 142, to_date('2011/09/25', 'yyyy/mm/dd'), 100);
+  
+  INSERT INTO aprueba VALUES (3234, 142, to_date('2011/09/25', 'yyyy/mm/dd'), 80);
 
   informe_aprobados(142);
   

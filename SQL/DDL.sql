@@ -65,7 +65,7 @@ CREATE TABLE aprueba (
   fecha DATE NOT NULL,
   calificacion NUMBER (3) NOT NULL CHECK(calificacion BETWEEN 70  and 100),
   CONSTRAINT aprueba_pk PRIMARY KEY (nro_estudiante, nro_examen),
-  CONSTRAINT aprueba_fk_nro_est FOREIGN KEY (nro_estudiante) REFERENCES examen (nro_examen),
+  CONSTRAINT aprueba_fk_nro_est FOREIGN KEY (nro_estudiante) REFERENCES estudiante (nro_estudiante),
   CONSTRAINT aprueba_fk_nro_ex FOREIGN KEY (nro_examen) REFERENCES examen (nro_examen)
 );
 
