@@ -6,13 +6,11 @@ var_nombre_institucion VARCHAR2(50);
 pais VARCHAR2(30);
 nombre VARCHAR2(50);
 var_nro_estudiante NUMBER;
-var_nro_estudiante_anterior NUMBER;
 apellido VARCHAR2(50);
 fecha DATE;
 var_ultima_rendida DATE;
 hora TIMESTAMP;
 var_calificacion NUMBER;
-primero NUMBER;
 
 CURSOR cursor_institucion IS
 SELECT i.nombre, i.pais

@@ -3,7 +3,8 @@ DROP TABLE aprueba CASCADE CONSTRAINTS;
 DROP TABLE estudiante CASCADE CONSTRAINTS;
 DROP TABLE examen CASCADE CONSTRAINTS;
 DROP TABLE inscribe CASCADE CONSTRAINTS;
-DROP TABLE instancia_ex CASCADE CONSTRAINTS;
+DROP TABLE instancia_ex_data CASCADE CONSTRAINTS;
+DROP VIEW instancia_ex CASCADE CONSTRAINTS;
 DROP TABLE institucion CASCADE CONSTRAINTS;
 DROP TABLE salon CASCADE CONSTRAINTS;
 DROP TABLE rinde_data CASCADE CONSTRAINTS;
@@ -70,7 +71,7 @@ CREATE TABLE aprueba (
 );
 
 
-CREATE TABLE instancia_ex (
+CREATE TABLE instancia_ex_data (
   nro_examen NUMBER CHECK(nro_examen >=0),
   nombre_institucion VARCHAR2(50),
   fecha DATE,
@@ -79,6 +80,8 @@ CREATE TABLE instancia_ex (
   CONSTRAINT instancia_ex_fk_nro_ex FOREIGN KEY (nro_examen) REFERENCES examen (nro_examen),
   CONSTRAINT instancia_ex_fk_nombre FOREIGN KEY (nombre_institucion) REFERENCES institucion (nombre)
 );
+
+CREATE VIEW instancia_ex AS SELECT * FROM instancia_ex_data;
 
 
 CREATE TABLE rinde_data (
