@@ -6,7 +6,7 @@ new_fecha IN DATE, new_nro_Salon IN OUT   NUMBER, new_nro_silla_asignado IN OUT 
 
 numeroDeSillaNueva NUMBER;
 controlSilla NUMBER;
-salonTupla SALON%ROWTYPE;
+salonTupla SALON%ROWTYPE; 
 
 encontre NUMBER;
 
@@ -57,14 +57,17 @@ BEGIN
 				BEGIN
 					SELECT count(*) 
 					into controlSilla
-					from rinde r  
+					from rinde r
 					where r.nro_SAlon = salonTupla.nro_SAlon
 					and   r.nombre_institucion = new_nombre_institucion
 					and   r.fecha = new_fecha
 					and   r.nro_silla_asignado = new_nro_silla_asignado;
+          
 				END;
 				--si no esta en uso me la quedo
-				IF controlSilla = 0 THEN
+				IF controlSilla = 0 AND salontupla.nro_silla_max <= new_nro_silla_asignado
+                            AND   salontupla.nro_silla_min >= new_nro_silla_asignado 
+        THEN
 					encontre := 1;
 					nro_salonFinal := salonTupla.nro_SAlon;
 					nro_sillaFinal := new_nro_silla_asignado;
@@ -204,5 +207,5 @@ BEGIN
 
 EXCEPTION
     WHEN OTHERS THEN
-	  raise_application_error(-20001, SQLERRM);
+	  raise_application_error(-20001,'An error was encountered - '||SQLCODE||' -ERROR- '||SQLERRM);
 END;
