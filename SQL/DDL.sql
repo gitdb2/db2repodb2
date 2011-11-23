@@ -35,6 +35,8 @@ CREATE TABLE institucion (
   pais VARCHAR2(30) NOT NULL,
   ciudad VARCHAR2(50) NOT NULL,
   direccion VARCHAR2 (100) NOT NULL,
+  timezone VARCHAR2(6) check (REGEXP_LIKE(timezone, '^(\+((0[127]:00)|(0[3-69]:[03]0)|(1[34]:00)|(1[01]:[03]0)|((12|0[58]):(00|45))))|(\-((0[1258]:00)|(0[349]:[03]0)|(1[0-2]:[03]0)))|(00:00)$')),
+
   CONSTRAINT institucion_pk PRIMARY KEY (nombre)
 );
 
