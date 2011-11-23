@@ -41,6 +41,8 @@ BEGIN
      dbms_output.put_line('BLOQUEO FOR UPDATE instancia examen(int, ex, fecha) ='
           ||nom_inst||', '||p_NRO_EXAMEN||', '||p_FECHA);
    
+
+ --- Seccion critica para la instancia de examen
    SELECT 1
     INTO tmp
    FROM	instancia_ex iex
@@ -67,10 +69,10 @@ BEGIN
 				  );
 	       
 	   INSERT INTO rinde VALUES (p_NRO_EXAMEN, p_NRO_ESTUDIANTE, nom_inst, nro_salonFinal, p_FECHA, nro_sillaFinal); 
-    -- COMMIT;
-     dbms_output.put_line('VA a dormir 5 segs');
-	   DBMS_LOCK.sleep (5);
-     dbms_output.put_line('termino de dormir hace commit');
+   
+     --dbms_output.put_line('VA a dormir 5 segs');
+	--   DBMS_LOCK.sleep (5);
+--     dbms_output.put_line('termino de dormir hace commit');
 	   COMMIT;
      dbms_output.put_line('hizo commit');
 	END;
