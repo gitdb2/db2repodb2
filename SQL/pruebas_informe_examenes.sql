@@ -65,7 +65,7 @@ BEGIN
   INSERT INTO rinde VALUES (142, 6666, 'Metropolitano de Barranquilla', 70, to_date('2011/09/25', 'yyyy/mm/dd'), 20);
   INSERT INTO rinde VALUES (142, 7777, 'Metropolitano de Barranquilla', 70, to_date('2011/09/25', 'yyyy/mm/dd'), 21);
 
-  informe_examenes(142, to_date('2011/07/01', 'yyyy/mm/dd'), to_date('2011/09/24', 'yyyy/mm/dd'));
+  --informe_examenes(142, to_date('2011/07/01', 'yyyy/mm/dd'), to_date('2011/09/24', 'yyyy/mm/dd'));
   
   informe_examenes(142, to_date('2011/07/01', 'yyyy/mm/dd'), NULL);
   

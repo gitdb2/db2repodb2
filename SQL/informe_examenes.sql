@@ -16,6 +16,11 @@ nombre_estudiante VARCHAR2(50);
 apellido VARCHAR2(50);
 primero NUMBER;
 aux_fecha_fin DATE;
+var_timezone VARCHAR2(6);
+
+var_fecha_local VARCHAR2(11);
+var_hora_local VARCHAR2(8);
+
 
 CURSOR cursor_instancias_examenes (par_fecha_fin IN DATE) IS
 SELECT i.fecha
@@ -27,7 +32,7 @@ GROUP BY fecha
 ORDER BY fecha ASC;
 
 CURSOR cursor_examenes (par_fecha IN DATE) IS
-SELECT i.nombre_institucion, i.hora, t.pais
+SELECT i.nombre_institucion, i.hora, t.pais, t.timezone
 FROM instancia_ex i, institucion t
 WHERE i.nro_examen = nro_examen
   AND i.fecha = par_fecha
@@ -83,12 +88,21 @@ BEGIN
                         
         OPEN cursor_examenes(fecha);
         LOOP
-          FETCH cursor_examenes INTO nombre_institucion, hora, pais;
+          FETCH cursor_examenes INTO nombre_institucion, hora, pais, var_timezone;
             EXIT WHEN cursor_examenes%NOTFOUND;
                 
             BEGIN  
             
-              DBMS_OUTPUT.PUT_LINE('----- ' || nombre_institucion || ' (' || pais || ') - ' || TO_CHAR(hora, 'HH24:MI'));
+              FORMATO_UTC_A_LOCAL(hora, var_timezone, var_fecha_local, var_hora_local);
+              
+              DBMS_OUTPUT.PUT('----- ' || nombre_institucion || ' (' || pais || ') - ');
+              
+              IF (TO_CHAR(fecha, 'DD.MON.YYYY') <> var_fecha_local) THEN
+                DBMS_OUTPUT.PUT (var_fecha_local || ' - ');
+              END IF;
+              
+              DBMS_OUTPUT.PUT_LINE(var_hora_local);
+              
               nro_salon_anterior := -1;
              
               primero := 1;

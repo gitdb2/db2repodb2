@@ -18,7 +18,7 @@ tmp_string := TO_CHAR (P_I_FECHA_HORA) || P_I_TIME_ZONE;
 temp_timestamp := SYS_EXTRACT_UTC (tmp_string);
 --dbms_output.put_line(temp_timestamp);
 
-P_O_FECHA_LOCAL := to_char(temp_timestamp, 'DD.Mon.YYYY');
+P_O_FECHA_LOCAL := to_char(temp_timestamp, 'DD.MON.YYYY');
 P_O_HORA_LOCAL  := LOWER(to_char(temp_timestamp, 'HH:MI PM')) ;
 
 END FORMATO_UTC_A_LOCAL;
