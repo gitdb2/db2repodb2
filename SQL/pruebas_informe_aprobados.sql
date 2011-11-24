@@ -19,7 +19,7 @@ BEGIN
   
   INSERT INTO examen VALUES (142, 'FCE - First Certificate', 'S');
   
-  INSERT INTO institucion VALUES ('Anglo', 'UY', 'Montevideo', 'San Martin y Chimborazo');
+  INSERT INTO institucion VALUES ('Anglo', 'UY', 'Montevideo', 'San Martin y Chimborazo', '-03:00');
   
   INSERT INTO inscribe VALUES (1234, 142);
   INSERT INTO inscribe VALUES (8945, 142);
