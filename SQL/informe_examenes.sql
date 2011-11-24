@@ -66,7 +66,7 @@ BEGIN
 
   IF (fecha_fin IS NULL)
   THEN
-    aux_fecha_fin := sysdate;
+    aux_fecha_fin := to_date(5373484, 'J'); --La fecha maxima soportada por Oracle: 31/12/9999
   ELSE
     aux_fecha_fin := fecha_fin;
   END IF;
