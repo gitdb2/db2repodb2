@@ -26,10 +26,10 @@ BEGIN
   
   INSERT INTO examen VALUES (142, 'FCE - First Certificate', 'S');
   
-  INSERT INTO institucion VALUES ('Anglo', 'UY', 'Montevideo', 'San Martin y Chimborazo');
-  INSERT INTO institucion VALUES ('British School', 'CL', 'Valparaiso', 'Chupete Suazo 0004');
-  INSERT INTO institucion VALUES ('Metropolitano de Barranquilla', 'CO', 'Barranquilla', 'Pablo Escobar 9944');
-  
+  INSERT INTO institucion VALUES ('Anglo', 'UY', 'Montevideo', 'San Martin y Chimborazo', '-03:00');
+  INSERT INTO institucion VALUES ('British School', 'CL', 'Valparaiso', 'Chupete Suazo 0004', '-04:00');
+  INSERT INTO institucion VALUES ('Metropolitano de Barranquilla', 'CO', 'Barranquilla', 'Pablo Escobar 9944', '-05:00');  
+
   INSERT INTO inscribe VALUES (1234, 142);
   INSERT INTO inscribe VALUES (2983, 142);
   INSERT INTO inscribe VALUES (8945, 142);

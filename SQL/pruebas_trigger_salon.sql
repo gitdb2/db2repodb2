@@ -1,9 +1,9 @@
 
 --prueba para t1_salon_control_rango_sillas
 INSERT INTO estudiante VALUES (1, 2, 'paraguay', 'est1', 'apellido', 'asuncion');
-INSERT INTO institucion VALUES ('inst1', 'paraguay', 'asuncion', 'chilavert road 1354');
+INSERT INTO institucion VALUES ('inst1', 'paraguay', 'asuncion', 'chilavert road 1354', '-04:00');
 INSERT INTO salon VALUES ('inst1', 1, 30, 1);
-INSERT INTO institucion VALUES ('inst2', 'ARGENTINA', 'BS', 'Kichener');
+INSERT INTO institucion VALUES ('inst2', 'ARGENTINA', 'BS', 'Kichener', '-03:00');
 INSERT INTO salon VALUES ('inst2', 1, 5, 1);
 INSERT INTO examen VALUES (1, 'test de cooper', 'S');
 INSERT INTO inscribe VALUES (1, 1);
