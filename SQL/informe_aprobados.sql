@@ -12,11 +12,15 @@ var_ultima_rendida DATE;
 hora TIMESTAMP;
 var_calificacion NUMBER;
 
+var_timezone VARCHAR2(6);
+var_fecha_local VARCHAR2(11);
+var_hora_local VARCHAR2(8);
+
 CURSOR cursor_institucion IS
-SELECT i.nombre, i.pais
+SELECT i.nombre, i.pais, i.timezone
 FROM rinde r, institucion i
 WHERE r.nro_examen = par_nro_examen
-GROUP BY i.nombre, i.pais
+GROUP BY i.nombre, i.pais, i.timezone
 ORDER BY i.nombre ASC, i.pais ASC;
 
 CURSOR cursor_rindieron (par_nombre_institucion IN VARCHAR2) IS
@@ -53,7 +57,7 @@ BEGIN
 
   OPEN cursor_institucion;
     LOOP
-      FETCH cursor_institucion INTO var_nombre_institucion, pais;
+      FETCH cursor_institucion INTO var_nombre_institucion, pais, var_timezone;
       EXIT WHEN cursor_institucion%NOTFOUND;
   
           DBMS_OUTPUT.PUT_LINE('');
@@ -93,7 +97,17 @@ BEGIN
                       IF (fecha = var_ultima_rendida AND var_calificacion > 0) THEN
                         DBMS_OUTPUT.PUT_LINE('       >>> Aprobado: ' || TO_CHAR(fecha, 'DD.MON.YYYY') || ' Calif: ' || var_calificacion);
                       ELSE
-                        DBMS_OUTPUT.PUT_LINE('       ' || TO_CHAR(fecha, 'DD.MON.YYYY') || ' - ' || TO_CHAR(hora, 'HH24:MI'));
+                      
+                        FORMATO_UTC_A_LOCAL(hora, var_timezone, var_fecha_local, var_hora_local);
+                        
+                        DBMS_OUTPUT.PUT('       ' || TO_CHAR(fecha, 'DD.MON.YYYY') || ' - ');
+                        
+                        IF (TO_CHAR(fecha, 'DD.MON.YYYY') <> var_fecha_local) THEN
+                          DBMS_OUTPUT.PUT (var_fecha_local || ' - ');
+                        END IF;
+                      
+                        DBMS_OUTPUT.PUT_LINE(var_hora_local);
+                        
                       END IF;
                       
                   END LOOP;
