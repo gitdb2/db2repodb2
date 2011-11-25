@@ -2,7 +2,7 @@ create or replace
 Procedure CARGA_CALIDAD (p_fecha IN DATE)
     IS
 
---salonTupla SALON%ROWTYPE; 
+
 
 encontre NUMBER;
 nro_examenTMP NUMBER;
@@ -31,22 +31,13 @@ CURSOR cursor_rinde_not_in_calidad (par_fecha in DATE ) IS
   
 BEGIN
 	dbms_output.put_line('----'); 
-  
-  CREATE GLOBAL TEMPORARY TABLE calidad_temp (
-    NROEXAMEN	NUMBER(4,0),
-    FECHA	DATE,
-    TOTALALUMNOS	NUMBER(10,0),
-    TOTALAPROBADOS	NUMBER(10,0),
-    TOTALELIMINADOS	NUMBER(10,0),
-    primary key(NROEXAMEN,FECHA)
-  ) ON COMMIT DELETE ROWS;
   	dbms_output.put_line('Tabla temporal Creada'); 
 
 			OPEN cursor_rinde_not_in_calidad(p_fecha);
 			LOOP
-				FETCH cursor_salonesDeInstitucion 
+				FETCH cursor_rinde_not_in_calidad 
         INTO nro_examentmp, fecha_tmp, cant_rendidos_tmp;
-	    			EXIT WHEN cursor_salonesDeInstitucion%NOTFOUND;
+	    			EXIT WHEN cursor_rinde_not_in_calidad%NOTFOUND;
 
 				BEGIN
 					SELECT count(*) 
@@ -55,10 +46,12 @@ BEGIN
 					WHERE ap.nro_examen = nro_examentmp
 					AND   ap.fecha      = fecha_tmp;
           
-          INSERT INTO calidad_temp VALUES(nro_examentmp,fecha_tmp, cant_rendidos_tmp, cant_aprobados_tmp, cant_rendidos_tmp - cant_aprobados_tmp;
+          INSERT INTO calidad_temp 
+          VALUES(nro_examentmp,fecha_tmp, cant_rendidos_tmp, cant_aprobados_tmp, cant_rendidos_tmp - cant_aprobados_tmp);
           
           EXCEPTION
           WHEN NO_DATA_FOUND
+          THEN
               dbms_output.put_line('NO DATA FOUND en aprueba para nro_examen='||nro_examentmp||' fecha=' ||fecha_tmp); 
               cant_aprobados_TMP := 0;
              
@@ -70,7 +63,7 @@ BEGIN
       
       
       INSERT INTO calidad (NROEXAMEN, FECHA, TOTALALUMNOS,  TOTALAPROBADOS,TOTALELIMINADOS)
-      SELECT  (NROEXAMEN, FECHA, TOTALALUMNOS,  TOTALAPROBADOS,TOTALELIMINADOS)
+      SELECT  NROEXAMEN, FECHA, TOTALALUMNOS,  TOTALAPROBADOS,TOTALELIMINADOS
       FROM calidad_temp;
      
      COMMIT;
