@@ -31,22 +31,37 @@ CURSOR cursor_rinde_not_in_calidad (par_fecha in DATE ) IS
   
 BEGIN
 	dbms_output.put_line('----'); 
+  
+  CREATE GLOBAL TEMPORARY TABLE calidad_temp (
+    NROEXAMEN	NUMBER(4,0),
+    FECHA	DATE,
+    TOTALALUMNOS	NUMBER(10,0),
+    TOTALAPROBADOS	NUMBER(10,0),
+    TOTALELIMINADOS	NUMBER(10,0),
+    primary key(NROEXAMEN,FECHA)
+  ) ON COMMIT DELETE ROWS;
+  	dbms_output.put_line('Tabla temporal Creada'); 
 
-			open cursor_rinde_not_in_calidad(new_nombre_institucion);
-			loop
-				fetch cursor_salonesDeInstitucion into salonTupla;
-	    			exit when cursor_salonesDeInstitucion%NOTFOUND OR encontre =1;
+			OPEN cursor_rinde_not_in_calidad(p_fecha);
+			LOOP
+				FETCH cursor_salonesDeInstitucion 
+        INTO nro_examentmp, fecha_tmp, cant_rendidos_tmp;
+	    			EXIT WHEN cursor_salonesDeInstitucion%NOTFOUND;
 
-				-- busco si el salon salonTupla tiene sillas libres
 				BEGIN
 					SELECT count(*) 
-					into controlSilla
-					from rinde r
-					where r.nro_SAlon = salonTupla.nro_SAlon
-					and   r.nombre_institucion = new_nombre_institucion
-					and   r.fecha = new_fecha
-					and   r.nro_silla_asignado = new_nro_silla_asignado;
+					INTO cant_aprobados_TMP
+					FROM aprueba ap
+					WHERE ap.nro_examen = nro_examentmp
+					AND   ap.fecha      = fecha_tmp;
           
+          INSERT INTO calidad_temp VALUES(nro_examentmp,fecha_tmp, cant_rendidos_tmp, cant_aprobados_tmp, cant_rendidos_tmp - cant_aprobados_tmp;
+          
+          EXCEPTION
+          WHEN NO_DATA_FOUND
+              dbms_output.put_line('NO DATA FOUND en aprueba para nro_examen='||nro_examentmp||' fecha=' ||fecha_tmp); 
+              cant_aprobados_TMP := 0;
+              INSERT INTO calidad_temp VALUES(nro_examentmp,fecha_tmp, cant_rendidos_tmp, cant_aprobados_tmp, cant_rendidos_tmp - cant_aprobados_tmp;
 				END;
 			
 			end loop;
