@@ -1,12 +1,10 @@
 create or replace
-Procedure CARGA_CALIDAD
-(p_fecha IN DATE)
+Procedure CARGA_CALIDAD (p_fecha IN DATE)
     IS
 
 --salonTupla SALON%ROWTYPE; 
 
 encontre NUMBER;
-
 nro_examenTMP NUMBER;
 
 fecha_TMP DATE;
@@ -14,14 +12,27 @@ cant_rendidos_TMP NUMBER;
 cant_aprobados_TMP NUMBER;
 
 CURSOR cursor_rinde_not_in_calidad (par_fecha in DATE ) IS
-	SELECT *
-	FROM salon s
-	WHERE s.nombre_institucion = par_nombre_institucion;
+	SELECT r.nro_examen, r.fecha, count(*)
+	FROM rinde r
+	WHERE 
+    (par_fecha - 7) >r.fecha
+  AND 
+    NOT EXISTS 
+    (
+      SELECT 1
+      FROM calidad cal
+      WHERE 
+            cal.fecha = r.fecha
+      AND   
+            cal.nroexamen = r.nro_examen
+    )
+  
+  GROUP BY r.nro_examen, r.fecha;
   
 BEGIN
 	dbms_output.put_line('----'); 
 
-			open cursor_salonesDeInstitucion(new_nombre_institucion);
+			open cursor_rinde_not_in_calidad(new_nombre_institucion);
 			loop
 				fetch cursor_salonesDeInstitucion into salonTupla;
 	    			exit when cursor_salonesDeInstitucion%NOTFOUND OR encontre =1;
@@ -40,5 +51,5 @@ BEGIN
 			
 			end loop;
 
-			close cursor_salonesDeInstitucion;
+			close cursor_rinde_not_in_calidad;
 END CARGA_CALIDAD;
