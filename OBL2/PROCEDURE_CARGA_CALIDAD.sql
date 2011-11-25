@@ -44,7 +44,7 @@ BEGIN
 					INTO cant_aprobados_TMP
 					FROM aprueba ap
 					WHERE ap.nro_examen = nro_examentmp
-					AND   ap.fecha      = fecha_tmp;
+					AND   ap.fecha      = (fecha_tmp+8);
           
           INSERT INTO calidad_temp 
           VALUES(nro_examentmp,fecha_tmp, cant_rendidos_tmp, cant_aprobados_tmp, cant_rendidos_tmp - cant_aprobados_tmp);
@@ -61,6 +61,11 @@ BEGIN
 
 			close cursor_rinde_not_in_calidad;
       
+     for i in( select * from calidad_temp)
+     loop 
+      dbms_output.put_line( i.NROEXAMEN ||' ' || i.FECHA ||' ' || i.TOTALALUMNOS ||' ' || i.TOTALAPROBADOS ||' ' || i.TOTALELIMINADOS);
+     
+     END LOOP;
       
       INSERT INTO calidad (NROEXAMEN, FECHA, TOTALALUMNOS,  TOTALAPROBADOS,TOTALELIMINADOS)
       SELECT  NROEXAMEN, FECHA, TOTALALUMNOS,  TOTALAPROBADOS,TOTALELIMINADOS
