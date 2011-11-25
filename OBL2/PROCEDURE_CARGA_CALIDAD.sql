@@ -61,10 +61,26 @@ BEGIN
           WHEN NO_DATA_FOUND
               dbms_output.put_line('NO DATA FOUND en aprueba para nro_examen='||nro_examentmp||' fecha=' ||fecha_tmp); 
               cant_aprobados_TMP := 0;
-              INSERT INTO calidad_temp VALUES(nro_examentmp,fecha_tmp, cant_rendidos_tmp, cant_aprobados_tmp, cant_rendidos_tmp - cant_aprobados_tmp;
+             
 				END;
 			
 			end loop;
 
 			close cursor_rinde_not_in_calidad;
+      
+      
+      INSERT INTO calidad (NROEXAMEN, FECHA, TOTALALUMNOS,  TOTALAPROBADOS,TOTALELIMINADOS)
+      SELECT  (NROEXAMEN, FECHA, TOTALALUMNOS,  TOTALAPROBADOS,TOTALELIMINADOS)
+      FROM calidad_temp;
+     
+     COMMIT;
+      
+      
+  EXCEPTION
+          WHEN OTHERS
+					THEN 
+            RAISE_APPLICATION_ERROR(-20001, 'ERROR aaaaaaaa');
+            close cursor_rinde_not_in_calidad;
+            ROLLBACK ;
+          
 END CARGA_CALIDAD;
