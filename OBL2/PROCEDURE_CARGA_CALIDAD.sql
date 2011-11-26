@@ -51,9 +51,10 @@ BEGIN
                 r.fecha = fecha_tmp
           )
           loop
-          --  INSERTA_EN_FECHA(nro_examentmp, fecha_tmp, i.nro_estudiante, cant_aprobados_TMP);
-              cant_aprobados_TMP:=  cant_aprobados_TMP +1;
-          end loop;
+              incrementar_si_aprueba( nro_examentmp,i.nro_estudiante, fecha_tmp, cant_aprobados_TMP);
+           end loop;
+        
+         dbms_output.put_line('Aprobados = '||cant_aprobados_TMP);
         
           INSERT INTO calidad_temp 
           VALUES(nro_examentmp,fecha_tmp, cant_rendidos_tmp, cant_aprobados_tmp, (cant_rendidos_tmp - cant_aprobados_tmp));
