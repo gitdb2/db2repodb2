@@ -102,7 +102,7 @@ CREATE TABLE rinde_data (
 
 CREATE VIEW rinde AS SELECT * FROM rinde_data;
 
-
+drop table calidad_temp;
 CREATE GLOBAL TEMPORARY TABLE calidad_temp (
 NROEXAMEN	NUMBER(4,0),
 FECHA	DATE,

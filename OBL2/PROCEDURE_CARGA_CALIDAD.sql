@@ -40,14 +40,23 @@ BEGIN
 	    			EXIT WHEN cursor_rinde_not_in_calidad%NOTFOUND;
 
 				BEGIN
-					SELECT count(*) 
-					INTO cant_aprobados_TMP
-					FROM aprueba ap
-					WHERE ap.nro_examen = nro_examentmp
-					AND   ap.fecha      = (fecha_tmp+8);
-          
+        
+          cant_aprobados_TMP:= 0;
+          for i in (
+              select distinct(r.nro_estudiante)
+              from rinde r 
+              where 
+                r.nro_examen = nro_examentmp
+              and 
+                r.fecha = fecha_tmp
+          )
+          loop
+          --  INSERTA_EN_FECHA(nro_examentmp, fecha_tmp, i.nro_estudiante, cant_aprobados_TMP);
+              cant_aprobados_TMP:=  cant_aprobados_TMP +1;
+          end loop;
+        
           INSERT INTO calidad_temp 
-          VALUES(nro_examentmp,fecha_tmp, cant_rendidos_tmp, cant_aprobados_tmp, cant_rendidos_tmp - cant_aprobados_tmp);
+          VALUES(nro_examentmp,fecha_tmp, cant_rendidos_tmp, cant_aprobados_tmp, (cant_rendidos_tmp - cant_aprobados_tmp));
           
           EXCEPTION
           WHEN NO_DATA_FOUND
