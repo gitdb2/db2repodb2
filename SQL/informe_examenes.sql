@@ -1,23 +1,21 @@
 
 CREATE OR REPLACE PROCEDURE informe_examenes (nro_examen NUMBER, fecha_inicio DATE, fecha_fin DATE) AS
   
-descripcion VARCHAR2(200);
-
-nombre_institucion VARCHAR2(50);
-nombre_institucion_anterior VARCHAR2(50);
-fecha DATE;
-hora TIMESTAMP;
-pais VARCHAR2(30);
-nro_salon NUMBER;
-nro_salon_anterior NUMBER;
-nro_silla NUMBER;
-nro_estudiante NUMBER;
-nombre_estudiante VARCHAR2(50);
-apellido VARCHAR2(50);
-primero NUMBER;
-aux_fecha_fin DATE;
+var_descripcion VARCHAR2(200);
+var_nombre_inst VARCHAR2(50);
+var_nombre_inst_ant VARCHAR2(50);
+var_fecha DATE;
+var_hora TIMESTAMP;
+var_pais VARCHAR2(30);
+var_nro_salon NUMBER;
+var_nro_salon_anterior NUMBER;
+var_nro_silla NUMBER;
+var_nro_estudiante NUMBER;
+var_nombre_estudiante VARCHAR2(50);
+var_apellido VARCHAR2(50);
+var_primero NUMBER;
+var_aux_fecha_fin DATE;
 var_timezone VARCHAR2(6);
-
 var_fecha_local VARCHAR2(11);
 var_hora_local VARCHAR2(8);
 
@@ -51,14 +49,14 @@ ORDER BY r.nro_salon ASC, r.nro_silla_asignado ASC;
 BEGIN
     
   SELECT e.descripcion 
-  INTO descripcion
+  INTO var_descripcion
   FROM examen e
   WHERE e.nro_examen = nro_examen;
   
   DBMS_OUTPUT.PUT_LINE('-----------------------');
   DBMS_OUTPUT.PUT_LINE('- Informe de Examenes -');
   DBMS_OUTPUT.PUT_LINE('-----------------------');
-  DBMS_OUTPUT.PUT_LINE('Examen: ' || descripcion || ' (' || nro_examen || ')');
+  DBMS_OUTPUT.PUT_LINE('Examen: ' || var_descripcion || ' (' || nro_examen || ')');
   DBMS_OUTPUT.PUT_LINE('Desde: ' || TO_CHAR(fecha_inicio, 'DD.MON.YYYY'));
   
   IF fecha_fin IS NULL THEN
@@ -71,81 +69,81 @@ BEGIN
 
   IF (fecha_fin IS NULL)
   THEN
-    aux_fecha_fin := to_date(5373484, 'J'); --La fecha maxima soportada por Oracle: 31/12/9999
+    var_aux_fecha_fin := to_date(5373484, 'J'); --La fecha maxima soportada por Oracle: 31/12/9999
   ELSE
-    aux_fecha_fin := fecha_fin;
+    var_aux_fecha_fin := fecha_fin;
   END IF;
   
-  OPEN cursor_instancias_examenes (aux_fecha_fin);
+  OPEN cursor_instancias_examenes (var_aux_fecha_fin);
   LOOP
-    FETCH cursor_instancias_examenes INTO fecha;
+    FETCH cursor_instancias_examenes INTO var_fecha;
       EXIT WHEN cursor_instancias_examenes%NOTFOUND;
       
       BEGIN
       
-        DBMS_OUTPUT.PUT_LINE('-- ' || TO_CHAR(fecha, 'DD.MON.YYYY'));
-        nombre_institucion_anterior := 'xxxxxxxxxxxxxxxxxxxxxx';
+        DBMS_OUTPUT.PUT_LINE('-- ' || TO_CHAR(var_fecha, 'DD.MON.YYYY'));
+        var_nombre_inst_ant := 'xxxxxxxxxxxxxxxxxxxxxx';
                         
-        OPEN cursor_examenes(fecha);
+        OPEN cursor_examenes(var_fecha);
         LOOP
-          FETCH cursor_examenes INTO nombre_institucion, hora, pais, var_timezone;
+          FETCH cursor_examenes INTO var_nombre_inst, var_hora, var_pais, var_timezone;
             EXIT WHEN cursor_examenes%NOTFOUND;
                 
             BEGIN  
             
-              FORMATO_UTC_A_LOCAL(hora, var_timezone, var_fecha_local, var_hora_local);
+              FORMATO_UTC_A_LOCAL(var_hora, var_timezone, var_fecha_local, var_hora_local);
               
-              DBMS_OUTPUT.PUT('----- ' || nombre_institucion || ' (' || pais || ') - ');
+              DBMS_OUTPUT.PUT('----- ' || var_nombre_inst || ' (' || var_pais || ') - ');
               
-              IF (TO_CHAR(fecha, 'DD.MON.YYYY') <> var_fecha_local) THEN
+              IF (TO_CHAR(var_fecha, 'DD.MON.YYYY') <> var_fecha_local) THEN
                 DBMS_OUTPUT.PUT (var_fecha_local || ' - ');
               END IF;
               
               DBMS_OUTPUT.PUT_LINE(var_hora_local);
               
-              nro_salon_anterior := -1;
+              var_nro_salon_anterior := -1;
              
-              primero := 1;
+              var_primero := 1;
                                           
-              OPEN cursor_salon_alumno(nombre_institucion, fecha);
+              OPEN cursor_salon_alumno(var_nombre_inst, var_fecha);
               LOOP
-                FETCH cursor_salon_alumno INTO nro_salon, nro_silla, nro_estudiante, nombre_estudiante, apellido;
+                FETCH cursor_salon_alumno INTO var_nro_salon, var_nro_silla, var_nro_estudiante, var_nombre_estudiante, var_apellido;
                   EXIT WHEN cursor_salon_alumno%NOTFOUND;
                   
                   BEGIN
                                                         
-                    IF (nro_salon <> nro_salon_anterior) 
+                    IF (var_nro_salon <> var_nro_salon_anterior) 
                     THEN
                       
-                      IF (primero <> 1)
+                      IF (var_primero <> 1)
                       THEN
                         DBMS_OUTPUT.PUT_LINE('------------------------------------------');
                       END IF;
                       
-                      primero := 0;
+                      var_primero := 0;
                       
-                      DBMS_OUTPUT.PUT_LINE('------- Salon: ' || nro_salon);
+                      DBMS_OUTPUT.PUT_LINE('------- Salon: ' || var_nro_salon);
                       DBMS_OUTPUT.PUT_LINE('          Silla   -   NroEst   -   Nombre');
                       DBMS_OUTPUT.PUT_LINE('------------------------------------------');
                       
                     END IF;
                     
-                    DBMS_OUTPUT.PUT_LINE('           ' || nro_silla || '   -   ' || nro_estudiante || '   -   ' || nombre_estudiante || ' ' || apellido);
+                    DBMS_OUTPUT.PUT_LINE('           ' || var_nro_silla || '   -   ' || var_nro_estudiante || '   -   ' || var_nombre_estudiante || ' ' || var_apellido);
                     
-                    nro_salon_anterior := nro_salon;
+                    var_nro_salon_anterior := var_nro_salon;
                                         
                   END;
                   
               END LOOP;
               CLOSE cursor_salon_alumno;
               
-              IF (nombre_institucion <> nombre_institucion_anterior)
+              IF (var_nombre_inst <> var_nombre_inst_ant)
               THEN
                 DBMS_OUTPUT.PUT_LINE('------------------------------------------');
                 DBMS_OUTPUT.PUT_LINE('');
               END IF;
               
-              nombre_institucion_anterior := nombre_institucion;
+              var_nombre_inst_ant := var_nombre_inst;
                                               
             END;
             
