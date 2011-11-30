@@ -45,6 +45,8 @@ INSERT INTO inscribe VALUES (6666, 178);
 INSERT INTO inscribe VALUES (7777, 290);
 INSERT INTO inscribe VALUES (8888, 290);
 INSERT INTO inscribe VALUES (9999, 290);
+INSERT INTO inscribe VALUES (8888, 142);
+INSERT INTO inscribe VALUES (9999, 142);
 
 INSERT INTO instancia_ex VALUES (142, 'Anglo', to_date('2009/12/15', 'yyyy/mm/dd'), to_date('2009-12-15 10:00:', 'YYYY-MM-DD HH24:MI:'));
 INSERT INTO instancia_ex VALUES (142, 'Anglo', to_date('2010/12/20', 'yyyy/mm/dd'), to_date('2010-12-20 10:00:', 'YYYY-MM-DD HH24:MI:'));
@@ -87,6 +89,8 @@ INSERT INTO rinde VALUES (142, 3234, 'Anglo', 1, to_date('2011/08/15', 'yyyy/mm/
 INSERT INTO rinde VALUES (142, 3234, 'Anglo', 1, to_date('2011/08/25', 'yyyy/mm/dd'), 2);
 INSERT INTO rinde VALUES (142, 8945, 'Anglo', 23, to_date('2009/12/15', 'yyyy/mm/dd'), 11);
 INSERT INTO rinde VALUES (142, 8945, 'Anglo', 23, to_date('2010/12/20', 'yyyy/mm/dd'), 11);
+INSERT INTO rinde VALUES (142, 8888, 'Anglo', 23, to_date('2010/12/20', 'yyyy/mm/dd'), 3);
+INSERT INTO rinde VALUES (142, 9999, 'Anglo', 23, to_date('2010/12/20', 'yyyy/mm/dd'), 4);
 
 INSERT INTO rinde VALUES (150, 1111, 'Russian Institute', 10, to_date('2009/02/03', 'yyyy/mm/dd'), 11);
 INSERT INTO rinde VALUES (150, 1111, 'Russian Institute', 10, to_date('2010/02/03', 'yyyy/mm/dd'), 11);
@@ -116,6 +120,7 @@ INSERT INTO aprueba VALUES (9999, 142, to_date('2011/02/01', 'yyyy/mm/dd'), 92);
 
 INSERT INTO aprueba VALUES (1111, 150, to_date('2011/02/15', 'yyyy/mm/dd'), 70);
 INSERT INTO aprueba VALUES (3333, 150, to_date('2011/02/15', 'yyyy/mm/dd'), 84);
+
 INSERT INTO aprueba VALUES (5555, 178, to_date('2008/11/21', 'yyyy/mm/dd'), 99);
 
 INSERT INTO aprueba VALUES (9999, 290, to_date('2011/12/01', 'yyyy/mm/dd'), 99);
