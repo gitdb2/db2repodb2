@@ -3,7 +3,8 @@ SET serveroutput ON;
 
 /
 BEGIN
-  
+
+  DELETE FROM aprueba WHERE 1=1;
   DELETE FROM rinde WHERE 1=1;
   DELETE FROM instancia_ex WHERE 1=1;
   DELETE FROM inscribe WHERE 1=1;
