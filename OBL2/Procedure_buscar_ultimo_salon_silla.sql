@@ -75,7 +75,6 @@ BEGIN
 			END IF;
 			
   END;
-
   p_NOMBRE_INSTITUCION := institucion;
   p_STATUS:= 0;
 
