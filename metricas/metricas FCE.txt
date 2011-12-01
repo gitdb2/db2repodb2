@@ -1,0 +1,42 @@
+ejemplo first certificate:
+
+1.750.000 rinden anualmente
+
+
+aprobacion de un 70
+
+
+Asuminedo linealidad para los calculos:
+
+145833 mensualmente
+
+
+aprueban anual:
+1225000
+
+mensual
+102083
+
+
+paises 135
+salones de 50 estudiantes promedio
+10 salones por institucion promedio
+
+son 500 estudiantes por institucion => 1750000 / 500 = 3500 instituciones
+3500 instituciones que tiene 10 salones => 35000 salones en total
+
+tuplas
+------
+rinde:		1750000
+estudiante:	1750000
+inscribe:	1750000 (una inscripcion por cada rinde)
+institucion: 	3500
+salon:		35000
+instancia_ex:	3500    (1 para la fecha del examen, 1 por ano , por cada institucion)
+aprueba:	1225000 (asumiendo que aprueba el 70% de los que rinden)
+examen:		1
+
+
+
+
+
