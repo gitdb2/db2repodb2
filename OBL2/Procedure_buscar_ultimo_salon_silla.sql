@@ -76,21 +76,6 @@ BEGIN
 			
   END;
   p_NOMBRE_INSTITUCION := institucion;
-
-/*
-   BEGIN --CHEQUEO que exista una instancia de examen para esa fecha
-    SELECT count(*) 
-    INTO cantInstancias
-    FROM instancia_ex iex
-    		WHERE 	iex.fecha = p_FECHA
-					AND 	iex.nro_examen = p_NRO_EXAMEN
-					AND 	iex.nombre_institucion = p_NOMBRE_INSTITUCION;
-    IF cantInstancias = 0 THEN 
-      RAISE_APPLICATION_ERROR(-20001,'22 LA INSTANCIA ENCONTRADA DE EXAMEN NO EXISTE=> ERROR.');
-    END IF;
-  
-  END;*/
-  
   p_STATUS:= 0;
   
 END;
