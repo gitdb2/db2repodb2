@@ -1,16 +1,17 @@
 
 CREATE OR REPLACE PROCEDURE informe_aprobados (par_nro_examen NUMBER) AS
   
-var_descripcion VARCHAR2(200);
+descripcion VARCHAR2(200);
 var_nombre_institucion VARCHAR2(50);
-var_pais VARCHAR2(30);
-var_nombre VARCHAR2(50);
+pais VARCHAR2(30);
+nombre VARCHAR2(50);
 var_nro_estudiante NUMBER;
-var_apellido VARCHAR2(50);
-var_fecha DATE;
+apellido VARCHAR2(50);
+fecha DATE;
 var_ultima_rendida DATE;
-var_hora TIMESTAMP;
+hora TIMESTAMP;
 var_calificacion NUMBER;
+
 var_timezone VARCHAR2(6);
 var_fecha_local VARCHAR2(11);
 var_hora_local VARCHAR2(8);
@@ -44,31 +45,31 @@ ORDER BY i.fecha ASC;
 BEGIN
 
   SELECT e.descripcion 
-  INTO var_descripcion
+  INTO descripcion
   FROM examen e
   WHERE e.nro_examen = par_nro_examen;
   
   DBMS_OUTPUT.PUT_LINE('------------------------');
   DBMS_OUTPUT.PUT_LINE('- Informe de Aprobados -');
   DBMS_OUTPUT.PUT_LINE('------------------------');
-  DBMS_OUTPUT.PUT_LINE('Examen: ' || var_descripcion || ' (' || par_nro_examen || ')');
+  DBMS_OUTPUT.PUT_LINE('Examen: ' || descripcion || ' (' || par_nro_examen || ')');
   DBMS_OUTPUT.PUT_LINE('-----------------------');
 
   OPEN cursor_institucion;
     LOOP
-      FETCH cursor_institucion INTO var_nombre_institucion, var_pais, var_timezone;
+      FETCH cursor_institucion INTO var_nombre_institucion, pais, var_timezone;
       EXIT WHEN cursor_institucion%NOTFOUND;
   
           DBMS_OUTPUT.PUT_LINE('');
-          DBMS_OUTPUT.PUT_LINE('-- ' || var_nombre_institucion || ' (' || var_pais || ')');
+          DBMS_OUTPUT.PUT_LINE('-- ' || var_nombre_institucion || ' (' || pais || ')');
           DBMS_OUTPUT.PUT_LINE('-----------------------');
           
           OPEN cursor_rindieron (var_nombre_institucion);
             LOOP
-              FETCH cursor_rindieron INTO var_nro_estudiante, var_nombre, var_apellido;
+              FETCH cursor_rindieron INTO var_nro_estudiante, nombre, apellido;
               EXIT WHEN cursor_rindieron%NOTFOUND;
               
-                DBMS_OUTPUT.PUT_LINE(var_nro_estudiante || '  - ' || var_nombre || ' ' || var_apellido);
+                DBMS_OUTPUT.PUT_LINE(var_nro_estudiante || '  - ' || nombre || ' ' || apellido);
                 
                 BEGIN
                   SELECT calificacion INTO var_calificacion 
@@ -76,7 +77,7 @@ BEGIN
                   WHERE p.nro_estudiante = var_nro_estudiante
                     AND p.nro_examen = par_nro_examen;
                     
-                  SELECT MAX(var_fecha) INTO var_ultima_rendida
+                  SELECT MAX(fecha) INTO var_ultima_rendida
                   FROM rinde r
                   WHERE r.nro_estudiante = var_nro_estudiante
                     AND r.nro_examen = par_nro_examen
@@ -90,18 +91,18 @@ BEGIN
                 
                 OPEN cursor_datos_rindieron (var_nombre_institucion, var_nro_estudiante);
                   LOOP
-                    FETCH cursor_datos_rindieron INTO var_fecha, var_hora;
+                    FETCH cursor_datos_rindieron INTO fecha, hora;
                     EXIT WHEN cursor_datos_rindieron%NOTFOUND;
 
-                      IF (var_fecha = var_ultima_rendida AND var_calificacion > 0) THEN
-                        DBMS_OUTPUT.PUT_LINE('       >>> Aprobado: ' || TO_CHAR(var_fecha, 'DD.MON.YYYY') || ' Calif: ' || var_calificacion);
+                      IF (fecha = var_ultima_rendida AND var_calificacion > 0) THEN
+                        DBMS_OUTPUT.PUT_LINE('       >>> Aprobado: ' || TO_CHAR(fecha, 'DD.MON.YYYY') || ' Calif: ' || var_calificacion);
                       ELSE
                       
-                        FORMATO_UTC_A_LOCAL(var_hora, var_timezone, var_fecha_local, var_hora_local);
+                        FORMATO_UTC_A_LOCAL(hora, var_timezone, var_fecha_local, var_hora_local);
                         
-                        DBMS_OUTPUT.PUT('       ' || TO_CHAR(var_fecha, 'DD.MON.YYYY') || ' - ');
+                        DBMS_OUTPUT.PUT('       ' || TO_CHAR(fecha, 'DD.MON.YYYY') || ' - ');
                         
-                        IF (TO_CHAR(var_fecha, 'DD.MON.YYYY') <> var_fecha_local) THEN
+                        IF (TO_CHAR(fecha, 'DD.MON.YYYY') <> var_fecha_local) THEN
                           DBMS_OUTPUT.PUT (var_fecha_local || ' - ');
                         END IF;
                       
