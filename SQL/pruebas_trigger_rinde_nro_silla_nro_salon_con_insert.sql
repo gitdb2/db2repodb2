@@ -1,3 +1,12 @@
+DELETE FROM aprueba WHERE 1=1;
+DELETE FROM rinde WHERE 1=1;
+DELETE FROM instancia_ex WHERE 1=1;
+DELETE FROM inscribe WHERE 1=1;
+DELETE FROM salon WHERE 1=1;
+DELETE FROM institucion WHERE 1=1;
+DELETE FROM estudiante WHERE 1=1;
+DELETE FROM examen WHERE 1=1;
+
 INSERT INTO estudiante VALUES (1, 1, 'paraguay', 'est1', 'apellido', 'asuncion');
 INSERT INTO estudiante VALUES (2, 2, 'paraguay', 'est2', 'apellido', 'asuncion');
 INSERT INTO estudiante VALUES (3, 3, 'paraguay', 'est3', 'apellido', 'asuncion');
