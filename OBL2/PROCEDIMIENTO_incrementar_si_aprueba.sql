@@ -1,4 +1,4 @@
-CREATE OR REPLACE 
+CREATE OR REPLACE
 PROCEDURE incrementar_si_aprueba
 (
  par_nro_examen IN NUMBER, 
