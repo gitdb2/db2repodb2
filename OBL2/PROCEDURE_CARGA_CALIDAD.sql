@@ -66,21 +66,15 @@ BEGIN
 
 	close cursor_rinde_not_in_calidad;
       
-  --   for i in( select * from calidad_temp)
-  --   loop 
- --    dbms_output.put_line( i.NROEXAMEN ||' ' || i.FECHA ||' ' || i.TOTALALUMNOS ||' ' || i.TOTALAPROBADOS ||' ' || i.TOTALELIMINADOS);
-  --   END LOOP;
       
-      INSERT INTO calidad (NROEXAMEN, FECHA, TOTALALUMNOS,  TOTALAPROBADOS,TOTALELIMINADOS)
-      SELECT  NROEXAMEN, FECHA, TOTALALUMNOS,  TOTALAPROBADOS,TOTALELIMINADOS
-      FROM calidad_temp;
+    INSERT INTO calidad (NROEXAMEN, FECHA, TOTALALUMNOS,  TOTALAPROBADOS,TOTALELIMINADOS)
+    SELECT  NROEXAMEN, FECHA, TOTALALUMNOS,  TOTALAPROBADOS,TOTALELIMINADOS
+    FROM calidad_temp;
      
-     COMMIT;
-      
-      
+    COMMIT;
+        
   EXCEPTION
-          WHEN OTHERS
-					THEN 
+	WHEN OTHERS	THEN 
             RAISE_APPLICATION_ERROR(-20001, 'ERROR DE CALIDAD');
             close cursor_rinde_not_in_calidad;
             ROLLBACK ;
