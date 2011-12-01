@@ -16,6 +16,7 @@ var_timezone VARCHAR2(6);
 var_fecha_local VARCHAR2(11);
 var_hora_local VARCHAR2(8);
 
+--itera todas las instituciones donde se rindio el examen que se paso por parametro
 CURSOR cursor_institucion IS
 SELECT i.nombre, i.pais, i.timezone
 FROM rinde r, institucion i
@@ -23,6 +24,7 @@ WHERE r.nro_examen = par_nro_examen
 GROUP BY i.nombre, i.pais, i.timezone
 ORDER BY i.nombre ASC, i.pais ASC;
 
+--itera los estudiantes que rindieron el exament que se paso por parametro
 CURSOR cursor_rindieron (par_nombre_institucion IN VARCHAR2) IS
 SELECT DISTINCT r.nro_estudiante, e.nombre, e.apellido
 FROM rinde r, estudiante e
@@ -31,6 +33,7 @@ WHERE r.nro_examen = par_nro_examen
   AND r.nro_estudiante = e.nro_estudiante
 ORDER BY r.nro_estudiante ASC;
 
+--itera los datos del estudiante, instancia examen y rendicion de los cursores anteriores
 CURSOR cursor_datos_rindieron (par_nombre_institucion IN VARCHAR2, par_nro_estudiante IN NUMBER) IS
 SELECT DISTINCT i.fecha, i.hora
 FROM rinde r, estudiante e, instancia_ex i
@@ -44,6 +47,7 @@ ORDER BY i.fecha ASC;
 
 BEGIN
 
+  --imprimo mensaje inicial
   SELECT e.descripcion 
   INTO descripcion
   FROM examen e
@@ -69,9 +73,13 @@ BEGIN
               FETCH cursor_rindieron INTO var_nro_estudiante, nombre, apellido;
               EXIT WHEN cursor_rindieron%NOTFOUND;
               
+                --imprimo nombre y apellido del estudiante
                 DBMS_OUTPUT.PUT_LINE(var_nro_estudiante || '  - ' || nombre || ' ' || apellido);
                 
                 BEGIN
+                
+                  --obtengo la fecha de la instancia de examen en que aprobo
+                  --si existe ademas me quedo con la calificacion
                   SELECT calificacion INTO var_calificacion 
                   FROM aprueba p
                   WHERE p.nro_estudiante = var_nro_estudiante
@@ -93,11 +101,14 @@ BEGIN
                   LOOP
                     FETCH cursor_datos_rindieron INTO fecha, hora;
                     EXIT WHEN cursor_datos_rindieron%NOTFOUND;
-
+                      
+                      --itero todas las rendiciones del examen pedido del estudiante en la institucion
+                      --imprimo los datos pedidos
                       IF (fecha = var_ultima_rendida AND var_calificacion > 0) THEN
                         DBMS_OUTPUT.PUT_LINE('       >>> Aprobado: ' || TO_CHAR(fecha, 'DD.MON.YYYY') || ' Calif: ' || var_calificacion);
                       ELSE
                       
+                        --convierto la fecha y hora de la instancia en la fecha y hora locales al pais de la institucion
                         FORMATO_UTC_A_LOCAL(hora, var_timezone, var_fecha_local, var_hora_local);
                         
                         DBMS_OUTPUT.PUT('       ' || TO_CHAR(fecha, 'DD.MON.YYYY') || ' - ');
