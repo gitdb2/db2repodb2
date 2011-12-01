@@ -32,13 +32,16 @@ BEGIN
      dbms_output.put_line('BLOQUEO FOR UPDATE instancia examen(int, ex, fecha) ='
           ||nom_inst||', '||p_NRO_EXAMEN||', '||p_FECHA);
    
- --- Seccion critica para la instancia de examen, para evitar que me llamen al procedimientos mientras estoy buscando un lugar vacio para insertar
+ --- Seccion critica para la instancia de examen, para evitar que me 
+--llamen al procedimientos mientras estoy buscando un lugar vacio para insertar
+-- Se bloquean todas las instancia de examen para una fecha y una institucion dada, pues tenemos un supuesto que 
+-- en un salon puede haber varios examenes distintos
    SELECT 1
     INTO tmp
    FROM	instancia_ex iex
    WHERE 
       iex.nombre_institucion = nom_inst
-   AND	iex.nro_examen = p_NRO_EXAMEN
+   --AND	iex.nro_examen = p_NRO_EXAMEN
    AND iex.fecha    = p_FECHA
    FOR UPDATE;
    
