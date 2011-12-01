@@ -65,8 +65,8 @@ BEGIN
           
 				END;
 				--si no esta en uso me la quedo
-				IF controlSilla = 0 AND salontupla.nro_silla_max <= new_nro_silla_asignado
-                            AND   salontupla.nro_silla_min >= new_nro_silla_asignado 
+				IF controlSilla = 0 AND salontupla.nro_silla_max >= new_nro_silla_asignado
+                            AND   salontupla.nro_silla_min <= new_nro_silla_asignado 
         THEN
 					encontre := 1;
 					nro_salonFinal := salonTupla.nro_SAlon;
